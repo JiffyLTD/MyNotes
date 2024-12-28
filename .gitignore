@@ -1,0 +1,13 @@
+﻿.idea
+
+backend/.idea
+backend/*/obj
+backend/*/bin
+
+frontend/mynotes-web/node_modules
+frontend/mynotes-web/.next/
+frontend/mynotes-web/out/
+frontend/mynotes-web/build
+frontend/mynotes-web/.env*
+frontend/mynotes-web/*.tsbuildinfo
+frontend/mynotes-web/next-env.d.ts

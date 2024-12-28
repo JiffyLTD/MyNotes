@@ -1,0 +1,62 @@
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0.7
+    restart: unless-stopped
+    networks:
+      - dev-local
+    command: ["start-dev", "--verbose", "--import-realm"]
+    ports:
+      - "8443:8443"
+    environment:
+      KC_DB: postgres
+      KC_DB_USERNAME: keycloak-admin
+      KC_DB_PASSWORD: 12345
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: 12345
+      KC_DB_URL: "jdbc:postgresql://postgres-keycloak:5432/keycloak"
+      KC_HTTPS_CERTIFICATE_FILE: "/etc/x509/https/certificate.crt"
+      KC_HTTPS_CERTIFICATE_KEY_FILE: "/etc/x509/https/private.key"
+      KC_REALM_NAME: "traveltell-dev"
+    depends_on:
+      - postgres-keycloak
+    volumes:
+      - ./keycloak/keycloak_config.json:/opt/keycloak/data/import/realm.json:ro
+      - ./ssl/certificate.crt:/etc/x509/https/certificate.crt:ro
+      - ./ssl/private.key:/etc/x509/https/private.key:ro
+
+  postgres-keycloak:
+    image: postgres:17.2
+    restart: unless-stopped
+    networks:
+      - dev-local
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "keycloak"]
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak-admin
+      POSTGRES_PASSWORD: 12345
+    volumes:
+      - keycloak_postgres_data:/var/lib/postgresql/data
+
+  postgres:
+    image: postgres:17.2
+    restart: unless-stopped
+    networks: 
+      - dev-local
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: mynotes-db
+      POSTGRES_USER: mynotes-db-admin
+      POSTGRES_PASSWORD: 12345  
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+  keycloak_postgres_data:
+
+networks:
+  dev-local:
+    driver: bridge    
+    
