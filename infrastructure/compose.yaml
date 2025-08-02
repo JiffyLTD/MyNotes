@@ -1,0 +1,56 @@
+﻿services:
+
+  keycloak-postgres:
+    image: postgres:17.5
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "keycloak" ]
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak-user
+      POSTGRES_PASSWORD: password
+    volumes:
+      - keycloak-postgres-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.3.2
+    command: [ "start-dev", "--import-realm" ]
+    restart: unless-stopped
+    environment:
+      KC_DB: postgres
+      KC_DB_USERNAME: keycloak-user
+      KC_DB_PASSWORD: password
+      KC_DB_URL: "jdbc:postgresql://keycloak-postgres:5432/keycloak"
+      KC_REALM_NAME: mynotes-dev
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: 12345678
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./kc_config.json:/opt/keycloak/data/import/realm.json:ro
+    networks:
+      - app-network
+
+  postgres:
+    image: postgres:17.5
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 12345678
+      POSTGRES_DB: mynotes-db
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+volumes:
+  keycloak-postgres-data:
+  postgres-data:
+
+networks:
+  app-network:
+    driver: bridge

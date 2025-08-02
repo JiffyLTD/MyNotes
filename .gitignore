@@ -1,0 +1,8 @@
+﻿.idea
+
+/backend/**/bin/
+/backend/**/obj/
+/backend/.idea
+/backend/backend.sln.DotSettings.user
+
+/frontend/node_modules

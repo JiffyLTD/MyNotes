@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoteService.Domain", "NoteService.Domain\NoteService.Domain.csproj", "{B0BE1212-0F4E-48E4-85BA-7E60CA7C873B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoteService.Application", "NoteService.Application\NoteService.Application.csproj", "{B61D787A-964B-4EFB-94B0-19AD406F323D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoteService.Infrastructure", "NoteService.Infrastructure\NoteService.Infrastructure.csproj", "{EAE64870-40EC-4394-A017-C78A2C859D64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoteService.Presentation", "NoteService.Presentation\NoteService.Presentation.csproj", "{8BE4FE37-0633-4D8D-B05B-39C56DEF50BB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B0BE1212-0F4E-48E4-85BA-7E60CA7C873B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0BE1212-0F4E-48E4-85BA-7E60CA7C873B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0BE1212-0F4E-48E4-85BA-7E60CA7C873B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0BE1212-0F4E-48E4-85BA-7E60CA7C873B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B61D787A-964B-4EFB-94B0-19AD406F323D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B61D787A-964B-4EFB-94B0-19AD406F323D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B61D787A-964B-4EFB-94B0-19AD406F323D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B61D787A-964B-4EFB-94B0-19AD406F323D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAE64870-40EC-4394-A017-C78A2C859D64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAE64870-40EC-4394-A017-C78A2C859D64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAE64870-40EC-4394-A017-C78A2C859D64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAE64870-40EC-4394-A017-C78A2C859D64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BE4FE37-0633-4D8D-B05B-39C56DEF50BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BE4FE37-0633-4D8D-B05B-39C56DEF50BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BE4FE37-0633-4D8D-B05B-39C56DEF50BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BE4FE37-0633-4D8D-B05B-39C56DEF50BB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
