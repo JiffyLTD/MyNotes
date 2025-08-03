@@ -47,6 +47,19 @@
     networks:
       - app-network
 
+  rabbitmq:
+    image: rabbitmq:4.1.2-management
+    container_name: rabbitmq-internal
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: 12345678
+    networks:
+      - app-network
+
+
 volumes:
   keycloak-postgres-data:
   postgres-data:

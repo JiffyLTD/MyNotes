@@ -1,9 +1,11 @@
 ﻿using System.Xml;
 using LinqToDB;
 using LinqToDB.EntityFrameworkCore;
+using MassTransit;
 using Microsoft.Extensions.Options;
 using NoteService.Infrastructure.DbContext;
 using NoteService.Infrastructure.Jobs;
+using NoteService.InternalEvents;
 using NoteService.Presentation.Options;
 
 namespace NoteService.Presentation.Jobs;
@@ -11,7 +13,8 @@ namespace NoteService.Presentation.Jobs;
 public class DeleteNotesJob(
     INotesDbContextFactory contextFactory,
     IOptions<NoteServiceOptions> options,
-    ILogger<DeleteNotesJob> logger
+    ILogger<DeleteNotesJob> logger,
+    IPublishEndpoint publishEndpoint
     ) : IDeleteNotesJob
 {
     private const int ChunkSize = 100;
@@ -49,6 +52,14 @@ public class DeleteNotesJob(
             logger.LogInformation($"Было удалено {deletedNotesOutput.Length} заметок");
             
             deletedNotes += deletedNotesOutput.Length;
+            
+            if (deletedNotesOutput.Length > 0)
+            {
+                await publishEndpoint.Publish(new NotesDeleted
+                {
+                    NoteIds = deletedNotesOutput
+                });
+            }
         }
     }
 }

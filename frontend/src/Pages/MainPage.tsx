@@ -12,6 +12,10 @@ import {IDeleteNoteDto} from "../DTOs/IDeleteNoteDto";
 import NoteModalComponent from "../Components/NoteModalComponent";
 import {IUpdateNoteDto} from "../DTOs/IUpdateNoteDto";
 import UpdateNoteModalComponent from "../Components/UpdateNoteModalComponent";
+import {IGetAllFavoriteNotesResponse} from "../DTOs/IGetAllFavoriteNotesResponse";
+import FavoriteNoteApiClient from "../Api/FavoriteNoteApiClient";
+import {IDeleteFavoriteNoteDto} from "../DTOs/IDeleteFavoriteNoteDto";
+import {ICreateFavoriteNoteDto} from "../DTOs/ICreateFavoriteNoteDto";
 
 interface MainPageProps {
     isDarkTheme: boolean;
@@ -29,8 +33,22 @@ const MainPage: React.FC<MainPageProps> = ({isDarkTheme}) => {
     useEffect(() => {
         const fetchNotes = async () => {
             try {
-                const response: IGetAllNotesResponse = await NoteApiClient.GetAllNotesAsync();
-                setNotes(response.notes);
+                const allNotes: IGetAllNotesResponse = await NoteApiClient.GetAllNotesAsync();
+                const allFavoriteNotes: IGetAllFavoriteNotesResponse = await FavoriteNoteApiClient.GetAllFavoriteNotesAsync();
+
+                if(allFavoriteNotes.favoriteNotes.length !== 0) {
+                    const favoriteNoteIds = new Set(allFavoriteNotes.favoriteNotes.map(note => note.id));
+
+                    const updatedNotes = allNotes.notes.map(note => ({
+                        ...note,
+                        isFavorite: favoriteNoteIds.has(note.id)
+                    }));
+
+                    setNotes(updatedNotes);
+                }else{
+                    setNotes(allNotes.notes);
+                }
+
             } catch (error) {
                 console.error('Ошибка при загрузке заметок:', error);
                 setNoteFetchError(error.message);
@@ -141,6 +159,61 @@ const MainPage: React.FC<MainPageProps> = ({isDarkTheme}) => {
         }
     };
 
+    const onFavorite = async (id: string) => {
+        try {
+            let note = notes.find(note => note.id === id);
+
+            if(note.isFavorite){
+                let dto: IDeleteFavoriteNoteDto = {
+                    noteId: id
+                };
+
+                const response: boolean = await FavoriteNoteApiClient.DeleteFavoriteNoteAsync(dto);
+
+                if (response) {
+                    const updatedNotes: INote[] = notes.map(note =>
+                        note.id === id
+                            ? ({
+                                ...note,
+                                isFavorite: false,
+                                updatedAt: new Date().toISOString()
+                            } as unknown as INote)
+                            : note
+                    );
+
+                    setNotes(updatedNotes);
+                } else {
+                    throw new Error('Не удалось добавить заметку в избранное. Пожалуйста попробуйте позже.');
+                }
+            }else{
+                let dto: ICreateFavoriteNoteDto = {
+                    noteId: id
+                };
+
+                const response: boolean = await FavoriteNoteApiClient.CreateFavoriteNoteAsync(dto);
+
+                if (response) {
+                    const updatedNotes: INote[] = notes.map(note =>
+                        note.id === id
+                            ? ({
+                                ...note,
+                                isFavorite: true,
+                                updatedAt: new Date().toISOString()
+                            } as unknown as INote)
+                            : note
+                    );
+
+                    setNotes(updatedNotes);
+                } else {
+                    throw new Error('Не удалось добавить заметку в избранное. Пожалуйста попробуйте позже.');
+                }
+            }
+        }
+        catch (error: any){
+            throw new Error(error?.message || 'Произошла ошибка при добавлении или удалении заметки из избранного.');
+        }
+    };
+
     if (loading) return (
         <div
             style={{
@@ -212,6 +285,7 @@ const MainPage: React.FC<MainPageProps> = ({isDarkTheme}) => {
                                     onEdit={handleUpdateNote}
                                     onOpen={handleOpenNote}
                                     onDelete={handleDeleteNote}
+                                    onFavorite={onFavorite}
                                     isDarkTheme={isDarkTheme}
                                 />
                             </Col>

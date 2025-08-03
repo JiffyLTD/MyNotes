@@ -1,23 +1,21 @@
 using System.Reflection;
-using System.Xml;
 using Core.Extensions.ServiceCollection;
 using Core.HangfireAuthorization;
+using Core.Options;
 using FluentValidation;
 using Hangfire;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
-using NoteService.Application.Commands;
-using NoteService.Application.Queries;
 using NoteService.Domain.Repositories;
 using NoteService.Infrastructure;
 using NoteService.Infrastructure.DbContext;
+using NoteService.Infrastructure.Grpc;
 using NoteService.Infrastructure.Jobs;
 using NoteService.Infrastructure.Repositories;
 using NoteService.Presentation.Extensions;
 using NoteService.Presentation.Jobs;
 using NoteService.Presentation.Options;
 using NoteService.Presentation.Rest.Apis;
+using ProtoBuf.Grpc.Server;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +23,7 @@ builder.Services
     .AddValidatorsFromAssembly(Assembly.Load(nameof(Core)), ServiceLifetime.Singleton)
     .AddValidatorsFromAssemblyContaining<Program>(ServiceLifetime.Singleton)
     .RegisterOptions<NoteServiceOptions>(builder.Configuration)
+    .RegisterOptions<RabbitMqOptions>(builder.Configuration)
     .RegisterOpenTelemetry(builder.Logging, nameof(NoteService)).Services
     .RegisterAuthenticationSchemes(builder.Configuration)
     .RegisterPooledDbContextFactory<NotesDbContext, NoteServiceOptions>(Constants.DatabaseSchemaName)
@@ -32,8 +31,9 @@ builder.Services
         new NotesDbContextFactory(sp.GetRequiredService<IDbContextFactory<NotesDbContext>>()))
     .RegisterHangfire<NoteServiceOptions>(nameof(NoteService).ToLower())
     .RegisterMediatr()
+    .RegisterRabbitMq()
     .AddSingleton<INoteRepository, NoteRepository>()
-    .AddSingleton<IDeleteNotesJob, DeleteNotesJob>()
+    .AddScoped<IDeleteNotesJob, DeleteNotesJob>()
     .AddCors(options =>
     {
         options.AddPolicy("AllowLocalhost",
@@ -44,6 +44,8 @@ builder.Services
     })
     .RegisterSwagger()
     ;
+
+builder.Services.AddCodeFirstGrpc();
 
 var app = builder.Build();
 
@@ -83,7 +85,8 @@ try
             Authorization = [new HangfireDashboardAuthorizationFilter()]
         });
     }
-
+    
+    app.MapGrpcService<NoteGrpcClient>();
     app.MapNoteApi();
 
     try

@@ -17,7 +17,7 @@ namespace NoteService.Infrastructure.DbContext.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("noteservice")
+                .HasDefaultSchema("note_service")
                 .HasAnnotation("ProductVersion", "9.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -61,7 +61,7 @@ namespace NoteService.Infrastructure.DbContext.Migrations
                     b.HasKey("Id")
                         .HasName("pk_notes");
 
-                    b.ToTable("notes", "noteservice");
+                    b.ToTable("notes", "note_service");
                 });
 #pragma warning restore 612, 618
         }

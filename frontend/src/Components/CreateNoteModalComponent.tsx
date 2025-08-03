@@ -1,6 +1,7 @@
 ﻿// src/Components/CreateNoteModal.tsx
 import React, { useState } from 'react';
 import {Modal, Input, Form, Button, Alert} from 'antd';
+import {DateHelper} from "../Helpers/DateHelper";
 
 interface CreateNoteModalProps {
     visible: boolean;
@@ -12,6 +13,11 @@ const CreateNoteModalComponent: React.FC<CreateNoteModalProps> = ({ visible, onC
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+
+    form.setFieldsValue({
+        title: 'Новая заметка',
+        content: 'Содержание заметки',
+    });
 
     const handleOk = () => {
         setError(null);

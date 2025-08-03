@@ -1,16 +1,18 @@
 ﻿import React from 'react';
-import {Card, Popconfirm} from 'antd';
+import {Card, Flex, Popconfirm} from 'antd';
 import {
     EditOutlined,
     DeleteOutlined,
     SearchOutlined,
-    ReloadOutlined
+    ReloadOutlined,
+    StarFilled,
+    StarOutlined
 } from '@ant-design/icons';
-import { INote } from '../Models/INote';
+import {INote} from '../Models/INote';
 import {Meta} from "antd/es/list/Item";
-import { Typography } from 'antd';
+import {Typography} from 'antd';
 
-const { Text } = Typography;
+const {Text} = Typography;
 
 interface NoteCardProps {
     note?: INote;
@@ -20,6 +22,7 @@ interface NoteCardProps {
     onOpen?: (id: string) => void;
     onDelete?: (id: string) => void;
     onRestore?: (id: string) => void;
+    onFavorite?: (id: string) => void;
     isDarkTheme: boolean;
 }
 
@@ -31,6 +34,7 @@ const NoteCard: React.FC<NoteCardProps> = ({
                                                onOpen,
                                                onDelete,
                                                onRestore,
+                                               onFavorite,
                                                isDarkTheme
                                            }) => {
 
@@ -40,37 +44,37 @@ const NoteCard: React.FC<NoteCardProps> = ({
 
     if (isNew) {
         return (
-        <Card
-            style={{ width: 300 }}
-            cover={
-                <img
-                    alt="example"
-                    src="/defaultCardImage.jpg"
-                />
-            }
-            actions={[
-                "Создать новую заметку"
-            ]}
-            onClick={() => onCreate()}
-        >
-            <Meta
-                title="Пример заголовка заметки"
-                description={
-                    <>
-                        <div style={{ marginBottom: 8 }}>Пример содержания заметки</div>
-                        <Text type="secondary" style={{ fontSize: 12 }}>
-                            Обновлено: {new Date().toLocaleString()}
-                        </Text>
-                    </>
+            <Card
+                style={{width: 300}}
+                cover={
+                    <img
+                        alt="example"
+                        src="/defaultCardImage.jpg"
+                    />
                 }
-            />
-        </Card>
+                actions={[
+                    "Создать новую заметку"
+                ]}
+                onClick={() => onCreate()}
+            >
+                <Meta
+                    title="Пример заголовка заметки"
+                    description={
+                        <>
+                            <div style={{marginBottom: 8}}>Пример содержания заметки</div>
+                            <Text type="secondary" style={{fontSize: 12}}>
+                                Обновлено: {new Date().toLocaleString()}
+                            </Text>
+                        </>
+                    }
+                />
+            </Card>
         );
     }
 
     return (
         <Card
-            style={{ width: 300 }}
+            style={{width: 300}}
             cover={
                 <img
                     alt="example"
@@ -80,31 +84,43 @@ const NoteCard: React.FC<NoteCardProps> = ({
             actions={
                 onRestore
                     ? [
-                        <ReloadOutlined key="restore" onClick={() => onRestore?.(note!.id)} />
+                        <ReloadOutlined key="restore" onClick={() => onRestore?.(note!.id)}/>
                     ]
                     : [
-                        <SearchOutlined key="open" onClick={() => onOpen?.(note!.id)} />,
-                        <EditOutlined key="edit" onClick={() => onEdit?.(note!.id, note!.title, note!.content)} />,
+                        <SearchOutlined key="open" onClick={() => onOpen?.(note!.id)}/>,
+                        <EditOutlined key="edit" onClick={() => onEdit?.(note!.id, note!.title, note!.content)}/>,
                         <Popconfirm
                             key="delete"
                             title="Удалить заметку?"
-                            description="Вы уверены, что хотите удалить эту заметку? Это действие необратимо."
+                            description="Вы уверены, что хотите удалить эту заметку?"
                             onConfirm={() => onDelete?.(note!.id)}
                             okText="Да"
                             cancelText="Отмена"
                         >
-                            <DeleteOutlined />
+                            <DeleteOutlined/>
                         </Popconfirm>
                     ]
             }
         >
             <Meta
-                title={truncate(note!.title, 24)} // например, 40 символов
-
+                title={
+                    <Flex justify="space-between" align="center">
+                        <span>{truncate(note!.title, 24)}</span>
+                        {!onDelete ? <></>
+                            :
+                            <span
+                                onClick={() => onFavorite(note!.id)}
+                                style={{cursor: 'pointer'}}
+                            >
+                                {note!.isFavorite ? <StarFilled style={{color: '#fadb14'}}/> : <StarOutlined/>}
+                            </span>
+                        }
+                    </Flex>
+                }
                 description={
                     <>
-                        <div style={{ marginBottom: 8 }}>{truncate(note!.content, 24)}</div>
-                        <Text type="secondary" style={{ fontSize: 12 }}>
+                        <div style={{marginBottom: 8}}>{truncate(note!.content, 24)}</div>
+                        <Text type="secondary" style={{fontSize: 12}}>
                             Обновлено: {new Date(note!.updatedAt).toLocaleString()}
                         </Text>
                     </>

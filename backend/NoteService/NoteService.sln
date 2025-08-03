@@ -8,6 +8,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoteService.Infrastructure"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoteService.Presentation", "NoteService.Presentation\NoteService.Presentation.csproj", "{8BE4FE37-0633-4D8D-B05B-39C56DEF50BB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoteService.InternalEvents", "NoteService.InternalEvents\NoteService.InternalEvents.csproj", "{FE9F7721-DF55-4629-8A8A-1534728D284C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoteService.Grpc", "NoteService.Grpc\NoteService.Grpc.csproj", "{1777790D-3AF0-446A-90B6-4EF63179D9A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +34,13 @@ Global
 		{8BE4FE37-0633-4D8D-B05B-39C56DEF50BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BE4FE37-0633-4D8D-B05B-39C56DEF50BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8BE4FE37-0633-4D8D-B05B-39C56DEF50BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE9F7721-DF55-4629-8A8A-1534728D284C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE9F7721-DF55-4629-8A8A-1534728D284C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE9F7721-DF55-4629-8A8A-1534728D284C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE9F7721-DF55-4629-8A8A-1534728D284C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1777790D-3AF0-446A-90B6-4EF63179D9A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1777790D-3AF0-446A-90B6-4EF63179D9A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1777790D-3AF0-446A-90B6-4EF63179D9A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1777790D-3AF0-446A-90B6-4EF63179D9A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -9,5 +9,11 @@
     <ItemGroup>
         <ProjectReference Include="..\NoteService.Application\NoteService.Application.csproj"/>
         <ProjectReference Include="..\..\Core\Core.csproj"/>
+        <ProjectReference Include="..\NoteService.Grpc\NoteService.Grpc.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="MassTransit" Version="8.5.1"/>
+        <PackageReference Include="MassTransit.RabbitMQ" Version="8.5.1"/>
     </ItemGroup>
 </Project>

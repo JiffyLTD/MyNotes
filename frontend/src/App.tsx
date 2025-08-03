@@ -8,6 +8,7 @@ import SidebarComponent from "./Components/SidebarComponent";
 import {useKeycloak} from "@react-keycloak/web";
 import {LoadingOutlined} from '@ant-design/icons';
 import NoteApiClient from "./Api/NoteApiClient";
+import FavoriteNoteApiClient from "./Api/FavoriteNoteApiClient";
 
 const {Content} = Layout;
 
@@ -35,6 +36,7 @@ const App: React.FC = () => {
                     console.log('Токен обновлён');
                 }
                 NoteApiClient.SetAccessToken(keycloak.token);
+                FavoriteNoteApiClient.SetAccessToken(keycloak.token);
             } catch {
                 console.warn('Ошибка при обновлении токена');
                 keycloak.logout();
@@ -65,6 +67,7 @@ const App: React.FC = () => {
         keycloak.login();
 
     NoteApiClient.SetAccessToken(keycloak.token);
+    FavoriteNoteApiClient.SetAccessToken(keycloak.token);
 
     return (
         <Router>

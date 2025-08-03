@@ -72,7 +72,7 @@ const DeletedPage: React.FC<DeletedPageProps> = ({isDarkTheme}) => {
         </div>);
 
     return (
-    <div style={{ padding: 24, minHeight: '60vh' }}>
+        <div style={{padding: 24, minHeight: '60vh'}}>
         {noteFetchError ? (
             <div
                 style={{
@@ -96,12 +96,7 @@ const DeletedPage: React.FC<DeletedPageProps> = ({isDarkTheme}) => {
                 <MehOutlined style={{ fontSize: 36 }} />
             </div>
         ) : (
-            <div style={{
-                padding: 24,
-                minHeight: 'calc(100vh - 64px - 70px)',
-                display: 'flex',
-                flexDirection: 'column'
-            }}>
+            <div style={{padding: 24, minHeight: '60vh'}}>
                 {deletedNotes.length > 0 ? (
                     <Row gutter={[16, 16]}>
                         {deletedNotes.map(note => (
@@ -116,10 +111,11 @@ const DeletedPage: React.FC<DeletedPageProps> = ({isDarkTheme}) => {
                     </Row>
                 ) : (
                     <div style={{
-                        flex: 1,
                         display: 'flex',
                         justifyContent: 'center',
-                        alignItems: 'center'
+                        alignItems: 'center',
+                        height: '60vh',
+                        width: '100%',
                     }}>
                         <Empty
                             description="Корзина пуста"

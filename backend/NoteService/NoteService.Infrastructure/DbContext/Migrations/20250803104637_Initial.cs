@@ -12,11 +12,11 @@ namespace NoteService.Infrastructure.DbContext.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
-                name: "noteservice");
+                name: "note_service");
 
             migrationBuilder.CreateTable(
                 name: "notes",
-                schema: "noteservice",
+                schema: "note_service",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -38,7 +38,7 @@ namespace NoteService.Infrastructure.DbContext.Migrations
         {
             migrationBuilder.DropTable(
                 name: "notes",
-                schema: "noteservice");
+                schema: "note_service");
         }
     }
 }

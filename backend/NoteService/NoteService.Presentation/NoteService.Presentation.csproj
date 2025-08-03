@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\NoteService.Infrastructure\NoteService.Infrastructure.csproj" />
+      <ProjectReference Include="..\NoteService.InternalEvents\NoteService.InternalEvents.csproj" />
     </ItemGroup>
 
     <ItemGroup>

@@ -8,7 +8,7 @@ import {IUpdateNoteDto} from "../DTOs/IUpdateNoteDto";
 
 export default class NoteApiClient {
     private static axiosInstance: AxiosInstance = axios.create({
-        baseURL: 'https://localhost:5000/api',
+        baseURL: 'http://localhost:5000/api',
         timeout: 5000,
         headers: {
             'Content-Type': 'application/json',

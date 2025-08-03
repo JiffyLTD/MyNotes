@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\Core\Core.csproj"/>
+        <ProjectReference Include="..\..\NoteService\NoteService.InternalEvents\NoteService.InternalEvents.csproj"/>
+        <ProjectReference Include="..\FavoriteNoteService.Application\FavoriteNoteService.Application.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="MassTransit" Version="8.5.1"/>
+        <PackageReference Include="MassTransit.RabbitMQ" Version="8.5.1"/>
+    </ItemGroup>
+
+</Project>

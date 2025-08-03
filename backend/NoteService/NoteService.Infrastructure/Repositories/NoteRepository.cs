@@ -7,18 +7,18 @@ using NoteService.Infrastructure.DbContext;
 
 namespace NoteService.Infrastructure.Repositories;
 
-public class NoteRepository(INotesDbContextFactory contextFactory) : INoteRepository
+public class NoteRepository(INotesDbContextFactory dbContextFactory) : INoteRepository
 {
     public async Task AddAsync(Note note, CancellationToken cancellationToken)
     {
-        await using var context = contextFactory.CreateDbContext();
+        await using var context = dbContextFactory.CreateDbContext();
         await context.Notes.AddAsync(note, cancellationToken);
         await context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task DeleteAsync(DeleteNoteDto dto, CancellationToken cancellationToken)
     {
-        await using var context = contextFactory.CreateDbContext();
+        await using var context = dbContextFactory.CreateDbContext();
         var note = await context.Notes
             .FirstOrDefaultAsyncLinqToDB(x => 
                 x.Id == dto.NoteId &&
@@ -34,7 +34,7 @@ public class NoteRepository(INotesDbContextFactory contextFactory) : INoteReposi
 
     public async Task RestoreAsync(RestoreNoteDto dto, CancellationToken cancellationToken)
     {
-        await using var context = contextFactory.CreateDbContext();
+        await using var context = dbContextFactory.CreateDbContext();
         var note = await context.Notes
             .FirstOrDefaultAsyncLinqToDB(x => 
                     x.Id == dto.NoteId &&
@@ -50,7 +50,7 @@ public class NoteRepository(INotesDbContextFactory contextFactory) : INoteReposi
 
     public async Task<List<Note>> GetAllAsync(Guid accountId, CancellationToken cancellationToken)
     {
-        await using var context = contextFactory.CreateDbContext();
+        await using var context = dbContextFactory.CreateDbContext();
         
         return await context.Notes
             .Where(n =>
@@ -63,7 +63,7 @@ public class NoteRepository(INotesDbContextFactory contextFactory) : INoteReposi
 
     public async Task<List<Note>> GetAllDeletedAsync(Guid accountId, CancellationToken cancellationToken)
     {
-        await using var context = contextFactory.CreateDbContext();
+        await using var context = dbContextFactory.CreateDbContext();
         
         return await context.Notes
             .Where(n => 
@@ -76,7 +76,7 @@ public class NoteRepository(INotesDbContextFactory contextFactory) : INoteReposi
 
     public async Task<Note> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
-        await using var context = contextFactory.CreateDbContext();
+        await using var context = dbContextFactory.CreateDbContext();
 
         var note = await context.Notes
             .FirstOrDefaultAsyncLinqToDB(n => n.Id == id, cancellationToken);
@@ -89,7 +89,7 @@ public class NoteRepository(INotesDbContextFactory contextFactory) : INoteReposi
 
     public async Task UpdateAsync(UpdateNoteDto dto, CancellationToken cancellationToken)
     {
-        await using var context = contextFactory.CreateDbContext();
+        await using var context = dbContextFactory.CreateDbContext();
         
         var note = await context.Notes
             .FirstOrDefaultAsyncLinqToDB(n => 
