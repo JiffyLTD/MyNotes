@@ -37,7 +37,7 @@
 > Из папки infrastucture
 
 ```
-docker-compose up --build
+docker-compose up -d
 ```
 
 ## Urls
@@ -51,3 +51,14 @@ FavoriteNoteService Swagger: http://localhost:5100/swagger
 Keycloak UI: http://localhost:8080
 
 RabbitMq UI: http://localhost:15672
+
+## 🔐 Доступ к Keycloak
+Для входа в систему можно использовать следующие тестовые учётные записи:
+
+| Логин | Пароль   |
+| ----- | -------- | 
+| user1 | 12345678 |
+| admin | 12345678 |
+
+## 🔐 Доступ к инфраструктуре
+См. compose.yaml
