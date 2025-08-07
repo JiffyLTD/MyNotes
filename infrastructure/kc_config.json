@@ -3,6 +3,7 @@
   "realm": "mynotes-dev",
   "sslRequired": "none",
   "enabled": true,
+  "registrationAllowed": true,
   "clients": [
     {
       "id": "mynotes-user",
@@ -11,7 +12,11 @@
       "enabled": true,
       "publicClient": true,
       "redirectUris": [
-        "http://localhost:3000/*"
+        "http://localhost:3000/*",
+        "http://localhost"
+      ],
+      "webOrigins": [
+        "http://localhost:3000"
       ],
       "protocolMappers": [
         {

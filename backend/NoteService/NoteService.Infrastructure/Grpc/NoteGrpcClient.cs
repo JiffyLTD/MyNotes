@@ -1,14 +1,14 @@
-﻿using NoteService.Grpc;
-using NoteService.Infrastructure.DbContext;
+﻿using NoteService.Domain.Repositories;
+using NoteService.Grpc;
 
 namespace NoteService.Infrastructure.Grpc;
 
 public partial class NoteGrpcClient : INoteGrpcClient
 {
-    private readonly INotesDbContextFactory _notesDbContextFactory;
+    private readonly INoteRepository _noteRepository;
 
-    public NoteGrpcClient(INotesDbContextFactory notesDbContextFactory)
+    public NoteGrpcClient(INoteRepository noteRepository)
     {
-        _notesDbContextFactory = notesDbContextFactory;
+        _noteRepository = noteRepository;
     }
 }

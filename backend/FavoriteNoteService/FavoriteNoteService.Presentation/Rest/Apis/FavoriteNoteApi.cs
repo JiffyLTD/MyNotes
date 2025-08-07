@@ -35,15 +35,17 @@ public static class FavoriteNoteApi
         CancellationToken cancellationToken
     )
     {
+        var accountId = claimsPrincipal.GetUserId();
+        
         var query = new GetAllFavoriteNotesQuery
         {
-            AccountId = claimsPrincipal.GetUserId()
+            AccountId = accountId
         };
 
         var favoriteNoteIds = await mediator.Send(query, cancellationToken);
         
         var response = await noteGrpcClient
-            .GetNotesByIds(new GetNotesByIdsRequest {NoteIds = favoriteNoteIds}, cancellationToken);
+            .GetNotesByIds(new GetNotesByIdsRequest { NoteIds = favoriteNoteIds, AccountId = accountId }, cancellationToken);
         
         return TypedResults.Ok(new GetFavoriteNotesAsyncResponse { FavoriteNotes = response.Notes });
     }

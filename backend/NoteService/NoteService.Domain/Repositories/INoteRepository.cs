@@ -7,6 +7,7 @@ public interface INoteRepository
 {
     Task<Note> GetByIdAsync(Guid id, CancellationToken cancellationToken);
     Task<List<Note>> GetAllAsync(Guid accountId, CancellationToken cancellationToken);
+    Task<List<Note>> GetAllByIdsAsync(GetNotesByIdsDto dto, CancellationToken cancellationToken);
     Task<List<Note>> GetAllDeletedAsync(Guid accountId, CancellationToken cancellationToken);
     Task AddAsync(Note note, CancellationToken cancellationToken);
     Task UpdateAsync(UpdateNoteDto dto, CancellationToken cancellationToken);

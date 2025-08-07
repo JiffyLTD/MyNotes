@@ -61,6 +61,20 @@ public class NoteRepository(INotesDbContextFactory dbContextFactory) : INoteRepo
             .ToListAsyncLinqToDB(cancellationToken);
     }
 
+    public async Task<List<Note>> GetAllByIdsAsync(GetNotesByIdsDto dto, CancellationToken cancellationToken)
+    {
+        await using var context = dbContextFactory.CreateDbContext();
+        
+        return await context.Notes
+            .Where(n =>
+                n.AccountId == dto.AccountId &&
+                n.DeletedAt == null && 
+                dto.NoteIds.Contains(n.Id)
+            )   
+            .OrderBy(x => x.CreatedAt)
+            .ToListAsyncLinqToDB(cancellationToken);
+    }
+
     public async Task<List<Note>> GetAllDeletedAsync(Guid accountId, CancellationToken cancellationToken)
     {
         await using var context = dbContextFactory.CreateDbContext();

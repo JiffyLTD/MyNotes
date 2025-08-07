@@ -7,6 +7,9 @@ public class GetNotesByIdsRequest
 {
     [ProtoMember(1)]
     public Guid[] NoteIds { get; set; }
+    
+    [ProtoMember(2)]
+    public Guid AccountId { get; set; }
 }
 
 [ProtoContract]

@@ -30,6 +30,7 @@
       - "8080:8080"
     volumes:
       - ./kc_config.json:/opt/keycloak/data/import/realm.json:ro
+      - ./keycloakTheme:/opt/keycloak/themes/mynotes-theme:ro
     networks:
       - app-network
 
