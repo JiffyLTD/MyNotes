@@ -43,6 +43,7 @@
       POSTGRES_DB: mynotes-db
     volumes:
       - postgres-data:/var/lib/postgresql/data
+      - ./init-readonly.sql:/docker-entrypoint-initdb.d/init-readonly.sql:ro
     ports:
       - "5432:5432"
     networks:
@@ -60,10 +61,27 @@
     networks:
       - app-network
 
+  minio:
+    image: minio/minio
+    restart: unless-stopped
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: 12345678
+    entrypoint: [ "/bin/sh", "/init/init.sh" ]
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio-data:/data
+      - ./minio-init-data:/init-data:ro
+      - ./minio.sh:/init/init.sh:ro
+    networks:
+      - app-network
 
 volumes:
   keycloak-postgres-data:
   postgres-data:
+  minio-data:
 
 networks:
   app-network:

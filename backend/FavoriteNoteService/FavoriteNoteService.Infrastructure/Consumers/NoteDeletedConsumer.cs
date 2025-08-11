@@ -12,7 +12,7 @@ public class NoteDeletedConsumer(IFavoriteNotesDbContextFactory dbContextFactory
     {
         var request = context.Message;
         
-        await using var dbContext = dbContextFactory.CreateDbContext();
+        await using var dbContext = dbContextFactory.CreateDbContext<FavoriteNotesCommandDbContext>();
 
         await dbContext.FavoriteNotes.DeleteAsync(x => request.NoteIds.Contains(x.NoteId));
         

@@ -5,10 +5,10 @@ namespace NoteService.Infrastructure.Grpc;
 
 public partial class NoteGrpcClient : INoteGrpcClient
 {
-    private readonly INoteRepository _noteRepository;
+    private readonly IQueryNoteRepository _queryNoteRepository;
 
-    public NoteGrpcClient(INoteRepository noteRepository)
+    public NoteGrpcClient(IQueryNoteRepository queryNoteRepository)
     {
-        _noteRepository = noteRepository;
+        _queryNoteRepository = queryNoteRepository;
     }
 }

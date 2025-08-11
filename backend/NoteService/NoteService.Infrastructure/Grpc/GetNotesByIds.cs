@@ -8,7 +8,7 @@ public partial class NoteGrpcClient
     public async Task<GetNotesByIdsResponse> GetNotesByIds(GetNotesByIdsRequest request,
         CancellationToken cancellationToken)
     {
-        var notes = await _noteRepository.GetAllByIdsAsync(new GetNotesByIdsDto
+        var notes = await _queryNoteRepository.GetAllByIdsAsync(new GetNotesByIdsDto
         {
             NoteIds = request.NoteIds,
             AccountId = request.AccountId

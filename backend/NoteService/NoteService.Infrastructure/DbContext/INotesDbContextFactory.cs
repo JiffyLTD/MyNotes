@@ -2,5 +2,5 @@
 
 public interface INotesDbContextFactory
 {
-    NotesDbContext CreateDbContext();
+    public T CreateDbContext<T>() where T : BaseNotesDbContext;
 }

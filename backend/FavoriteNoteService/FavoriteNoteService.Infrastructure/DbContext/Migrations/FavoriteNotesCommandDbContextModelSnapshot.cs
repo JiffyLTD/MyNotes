@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace FavoriteNoteService.Infrastructure.DbContext.Migrations
 {
-    [DbContext(typeof(FavoriteNotesDbContext))]
-    partial class FavoriteNotesDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(FavoriteNotesCommandDbContext))]
+    partial class FavoriteNotesCommandDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

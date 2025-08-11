@@ -6,4 +6,5 @@
     isDeleted: boolean;
     createdAt: Date;
     updatedAt: Date;
+    imageName?: string;
 }

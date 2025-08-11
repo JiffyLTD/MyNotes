@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace FavoriteNoteService.Infrastructure.DbContext.Migrations
 {
-    [DbContext(typeof(FavoriteNotesDbContext))]
-    [Migration("20250803105910_Initial")]
+    [DbContext(typeof(FavoriteNotesCommandDbContext))]
+    [Migration("20250811190453_Initial")]
     partial class Initial
     {
         /// <inheritdoc />

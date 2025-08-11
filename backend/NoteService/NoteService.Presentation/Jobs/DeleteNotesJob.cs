@@ -21,7 +21,7 @@ public class DeleteNotesJob(
     private readonly TimeSpan _deletionDelay = XmlConvert.ToTimeSpan(options.Value.DeletionDelay);
     public async Task StartAsync()
     {
-        await using var dbContext = contextFactory.CreateDbContext();
+        await using var dbContext = contextFactory.CreateDbContext<NotesCommandDbContext>();
         
         var now = DateTime.UtcNow;
 

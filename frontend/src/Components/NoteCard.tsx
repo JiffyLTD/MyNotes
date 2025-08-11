@@ -1,4 +1,4 @@
-﻿import React from 'react';
+﻿import React, {useState} from 'react';
 import {Card, Flex, Popconfirm} from 'antd';
 import {
     EditOutlined,
@@ -10,7 +10,7 @@ import {
 } from '@ant-design/icons';
 import {INote} from '../Models/INote';
 import {Meta} from "antd/es/list/Item";
-import {Typography} from 'antd';
+import {Typography, Skeleton } from 'antd';
 
 const {Text} = Typography;
 
@@ -42,27 +42,37 @@ const NoteCard: React.FC<NoteCardProps> = ({
         return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
     };
 
+    const [imageLoaded, setImageLoaded] = useState(false);
+
     if (isNew) {
         return (
             <Card
-                style={{width: 300}}
+                style={{ width: 300 }}
                 cover={
-                    <img
-                        alt="example"
-                        src="/defaultCardImage.jpg"
-                    />
+                    <>
+                        {!imageLoaded && <Skeleton.Image style={{ width: "100%", height: 200 }} active />}
+                        <img
+                            alt="example"
+                            src="http://localhost:9000/default-images/defaultCardImage.jpg"
+                            style={{
+                                display: imageLoaded ? "block" : "none",
+                                width: "100%",
+                                height: 200,
+                                objectFit: "cover"
+                            }}
+                            onLoad={() => setImageLoaded(true)}
+                        />
+                    </>
                 }
-                actions={[
-                    "Создать новую заметку"
-                ]}
+                actions={["Создать новую заметку"]}
                 onClick={() => onCreate()}
             >
                 <Meta
                     title="Пример заголовка заметки"
                     description={
                         <>
-                            <div style={{marginBottom: 8}}>Пример содержания заметки</div>
-                            <Text type="secondary" style={{fontSize: 12}}>
+                            <div style={{ marginBottom: 8 }}>Пример содержания заметки</div>
+                            <Text type="secondary" style={{ fontSize: 12 }}>
                                 Обновлено: {new Date().toLocaleString()}
                             </Text>
                         </>
@@ -76,10 +86,23 @@ const NoteCard: React.FC<NoteCardProps> = ({
         <Card
             style={{width: 300}}
             cover={
-                <img
-                    alt="example"
-                    src="/defaultCardImage.jpg"
-                />
+                <>
+                    {!imageLoaded && <Skeleton.Image style={{ width: "100%", height: 200 }} active />}
+                    <img
+                        alt="example"
+                        src={note.imageName == null
+                            ? "http://localhost:9000/default-images/defaultCardImage.jpg"
+                            : `http://localhost:9000/default-images/${note.imageName}`
+                    }
+                        style={{
+                            display: imageLoaded ? "block" : "none",
+                            width: "100%",
+                            height: 200,
+                            objectFit: "cover"
+                        }}
+                        onLoad={() => setImageLoaded(true)}
+                    />
+                </>
             }
             actions={
                 onRestore

@@ -1,6 +1,7 @@
 ﻿namespace Core.Interfaces;
 
-public class IDbOptions
+public interface IDbOptions
 {
-    public string ConnectionString { get; set; }
+    public string MasterConnectionString { get; set; }
+    public string ReplicaConnectionString { get; set; }
 }

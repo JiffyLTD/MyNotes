@@ -2,5 +2,5 @@
 
 public interface IFavoriteNotesDbContextFactory
 {
-    FavoriteNotesDbContext CreateDbContext();
+    public T CreateDbContext<T>() where T : BaseFavoriteNotesDbContext;
 }

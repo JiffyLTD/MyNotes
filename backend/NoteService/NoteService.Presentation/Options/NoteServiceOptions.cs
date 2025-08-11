@@ -5,15 +5,19 @@ namespace NoteService.Presentation.Options;
 
 public class NoteServiceOptions : IDbOptions
 {
-    public string ConnectionString { get; set; } = null!;
     public string DeletionDelay { get; set; } = null!;
-}
+    public string MasterConnectionString { get; set; } = null!;
+    public string ReplicaConnectionString { get; set; } = null!;
+} 
 
 public sealed class NoteServiceOptionsValidator : AbstractValidator<NoteServiceOptions>
 {
     public NoteServiceOptionsValidator()
     {
-        RuleFor(e => e.ConnectionString)
+        RuleFor(e => e.MasterConnectionString)
+            .NotEmpty();
+        
+        RuleFor(e => e.ReplicaConnectionString)
             .NotEmpty();
         
         RuleFor(e => e.DeletionDelay)

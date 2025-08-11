@@ -5,7 +5,7 @@ using MediatR;
 
 namespace FavoriteNoteService.Application.Handlers;
 
-public class CreateFavoriteNoteCommandHandler(IFavoriteNoteRepository repository) : IRequestHandler<CreateFavoriteNoteCommand, bool>
+public class CreateFavoriteNoteCommandHandler(ICommandFavoriteNoteRepository repository) : IRequestHandler<CreateFavoriteNoteCommand, bool>
 {
     public async Task<bool> Handle(CreateFavoriteNoteCommand request, CancellationToken cancellationToken)
     {

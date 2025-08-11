@@ -10,12 +10,12 @@ public static partial class ServiceCollectionExtensions
     public static IServiceCollection RegisterHangfire<TDbOptions> (
         this IServiceCollection services,
         string serviceName
-    ) where TDbOptions : IDbOptions
+    ) where TDbOptions : class, IDbOptions
     {
         services.AddHangfire((provider, config) =>
         {
             var dbOptions = provider.GetRequiredService<IOptions<TDbOptions>>().Value;
-            config.UsePostgreSqlStorage(dbOptions.ConnectionString, new PostgreSqlStorageOptions
+            config.UsePostgreSqlStorage(dbOptions.MasterConnectionString, new PostgreSqlStorageOptions
             {
                 SchemaName = $"hangfire_{serviceName}",
                 PrepareSchemaIfNecessary = true

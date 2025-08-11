@@ -5,7 +5,7 @@ using NoteService.Domain.Repositories;
 
 namespace NoteService.Application.Handlers;
 
-public class DeleteNoteCommandHandler(INoteRepository repository) : IRequestHandler<DeleteNoteCommand, bool>
+public class DeleteNoteCommandHandler(ICommandNoteRepository repository) : IRequestHandler<DeleteNoteCommand, bool>
 {
     public async Task<bool> Handle(DeleteNoteCommand request, CancellationToken cancellationToken)
     {

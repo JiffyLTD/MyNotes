@@ -5,7 +5,7 @@ using NoteService.Domain.Repositories;
 
 namespace NoteService.Application.Handlers;
 
-public class GetAllNotesQueryHandler(INoteRepository repository) : IRequestHandler<GetAllNotesQuery, List<Note>>
+public class GetAllNotesQueryHandler(IQueryNoteRepository repository) : IRequestHandler<GetAllNotesQuery, List<Note>>
 {
     public async Task<List<Note>> Handle(GetAllNotesQuery request, CancellationToken cancellationToken)
     {

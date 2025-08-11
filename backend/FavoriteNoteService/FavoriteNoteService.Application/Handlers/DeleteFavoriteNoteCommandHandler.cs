@@ -5,7 +5,7 @@ using MediatR;
 
 namespace FavoriteNoteService.Application.Handlers;
 
-public class DeleteFavoriteNoteCommandHandler(IFavoriteNoteRepository repository) : IRequestHandler<DeleteFavoriteNoteCommand, bool>
+public class DeleteFavoriteNoteCommandHandler(ICommandFavoriteNoteRepository repository) : IRequestHandler<DeleteFavoriteNoteCommand, bool>
 {
     public async Task<bool> Handle(DeleteFavoriteNoteCommand request, CancellationToken cancellationToken)
     {

@@ -26,13 +26,13 @@ builder.Services
     .RegisterOptions<RabbitMqOptions>(builder.Configuration)
     .RegisterOpenTelemetry(builder.Logging, nameof(NoteService)).Services
     .RegisterAuthenticationSchemes(builder.Configuration)
-    .RegisterPooledDbContextFactory<NotesDbContext, NoteServiceOptions>(Constants.DatabaseSchemaName)
-    .AddSingleton<INotesDbContextFactory, NotesDbContextFactory>(sp =>
-        new NotesDbContextFactory(sp.GetRequiredService<IDbContextFactory<NotesDbContext>>()))
+    .RegisterPooledDbContextFactories<NotesCommandDbContext, NotesQueryDbContext, NoteServiceOptions>(Constants.DatabaseSchemaName)
+    .AddSingleton<INotesDbContextFactory, NotesDbContextFactory>(sp => new NotesDbContextFactory(sp))
     .RegisterHangfire<NoteServiceOptions>(nameof(NoteService).ToLower())
     .RegisterMediatr()
     .RegisterRabbitMq()
-    .AddSingleton<INoteRepository, NoteRepository>()
+    .AddSingleton<ICommandNoteRepository, CommandNoteRepository>()
+    .AddSingleton<IQueryNoteRepository, QueryNoteRepository>()
     .AddScoped<IDeleteNotesJob, DeleteNotesJob>()
     .AddCors(options =>
     {
@@ -58,7 +58,7 @@ try
     try
     {
         using var scope = app.Services.CreateScope();
-        var factory = scope.ServiceProvider.GetRequiredService<IDbContextFactory<NotesDbContext>>();
+        var factory = scope.ServiceProvider.GetRequiredService<IDbContextFactory<NotesCommandDbContext>>();
         await using var dbContext = factory.CreateDbContext();
         await dbContext.Database.MigrateAsync();
         

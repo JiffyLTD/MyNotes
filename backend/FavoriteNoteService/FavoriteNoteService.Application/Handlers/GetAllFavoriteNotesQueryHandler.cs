@@ -4,7 +4,7 @@ using MediatR;
 
 namespace FavoriteNoteService.Application.Handlers;
 
-public class GetAllFavoriteNotesQueryHandler(IFavoriteNoteRepository repository) : IRequestHandler<GetAllFavoriteNotesQuery, Guid[]>
+public class GetAllFavoriteNotesQueryHandler(IQueryFavoriteNoteRepository repository) : IRequestHandler<GetAllFavoriteNotesQuery, Guid[]>
 {
     public async Task<Guid[]> Handle(GetAllFavoriteNotesQuery request, CancellationToken cancellationToken)
     {

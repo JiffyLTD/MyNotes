@@ -22,12 +22,12 @@ builder.Services
     .RegisterOptions<GrpcClientsOptions>(builder.Configuration)
     .RegisterOpenTelemetry(builder.Logging, nameof(FavoriteNoteService)).Services
     .RegisterAuthenticationSchemes(builder.Configuration)
-    .RegisterPooledDbContextFactory<FavoriteNotesDbContext, FavoriteNoteServiceOptions>(Constants.DatabaseSchemaName)
-    .AddSingleton<IFavoriteNotesDbContextFactory, FavoriteNotesDbContextFactory>(sp =>
-        new FavoriteNotesDbContextFactory(sp.GetRequiredService<IDbContextFactory<FavoriteNotesDbContext>>()))
+    .RegisterPooledDbContextFactories<FavoriteNotesCommandDbContext, FavoriteNotesQueryDbContext, FavoriteNoteServiceOptions>(Constants.DatabaseSchemaName)
+    .AddSingleton<IFavoriteNotesDbContextFactory, FavoriteNotesDbContextFactory>(sp => new FavoriteNotesDbContextFactory(sp))
     .RegisterMediatr()
     .RegisterRabbitMq()
-    .AddSingleton<IFavoriteNoteRepository, FavoriteNoteRepository>()
+    .AddSingleton<ICommandFavoriteNoteRepository, CommandFavoriteNoteRepository>()
+    .AddSingleton<IQueryFavoriteNoteRepository, QueryFavoriteNoteRepository>()
     .AddCors(options =>
     {
         options.AddPolicy("AllowLocalhost",
@@ -53,7 +53,7 @@ try
     try
     {
         using var scope = app.Services.CreateScope();
-        var factory = scope.ServiceProvider.GetRequiredService<IDbContextFactory<FavoriteNotesDbContext>>();
+        var factory = scope.ServiceProvider.GetRequiredService<IDbContextFactory<FavoriteNotesCommandDbContext>>();
         await using var dbContext = factory.CreateDbContext();
         await dbContext.Database.MigrateAsync();
         
